@@ -132,7 +132,6 @@
 	{
 		__context2D.clearRect(0, 0, __canvas.width, __canvas.height);
 		
-		// update and draw particles
 		for (var i = 0; i < __particles.length; i++)
 		{
 			var particle = __particles[i];
@@ -163,8 +162,8 @@
 			{
 				var particle = new Particle();
 				
-				particle.x = posX;
-				particle.y = posY;
+				particle.x = __randomFloat(posX - 5, posX + 5);
+				particle.y = __randomFloat(posY - 5, posY + 5);
 				
 				particle.radius = __randomFloat(minSize, maxSize);
 				
