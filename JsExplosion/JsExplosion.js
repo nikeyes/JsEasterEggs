@@ -89,7 +89,7 @@
 		__canvas.id = "canvas";
 		__canvas.setAttribute('width',__canvasWidth);
 		__canvas.setAttribute('height',__canvasHeight);
-		__canvas.setAttribute('style', 'pointer-events:none;position: absolute; z-index: 1000000; left:0; top:0;border: 5px solid blue;');
+		__canvas.setAttribute('style', 'pointer-events:none;position: absolute; z-index: 1000000; left:0; top:0;');
 		__context2D = __canvas.getContext("2d");
 		
 		document.body.insertBefore(__canvas, document.body.firstChild);
