@@ -29,38 +29,7 @@
 		this.velocityY = 0;
 		this.scaleSpeed = 0.5;
     };
-
-	var __drawStar = function (context2D, cx, cy, spikes, outerRadius, innerRadius) {
-		var rot = Math.PI / 2 * 3;
-		var x = cx;
-		var y = cy;
-		var step = Math.PI / spikes;
 	
-		context2D.strokeSyle = "#000";
-		context2D.beginPath();
-		context2D.moveTo(cx, cy - outerRadius)
-		for (var i = 0; i < spikes; i++) {
-			x = cx + Math.cos(rot) * outerRadius;
-			y = cy + Math.sin(rot) * outerRadius;
-			context2D.lineTo(x, y)
-			rot += step
-	
-			x = cx + Math.cos(rot) * innerRadius;
-			y = cy + Math.sin(rot) * innerRadius;
-			context2D.lineTo(x, y)
-			rot += step
-		}
-		context2D.lineTo(cx, cy - outerRadius)
-		context2D.closePath();
-		context2D.lineWidth=5;
-		context2D.strokeStyle='blue';
-		context2D.stroke();
-		context2D.fillStyle='skyblue';
-		context2D.fill();
-	
-	};
-
-
 	Particle.prototype = {
 		constructor : Particle,
 		update :  function(ms)
@@ -91,8 +60,6 @@
 			
 			context2D.fillStyle = this.color;
 			context2D.fill();
-			
-			//__drawStar(context2D,this.x, this.y, 5, 30, 15)
 			
 			context2D.restore();
 		}
