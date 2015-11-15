@@ -1,3 +1,5 @@
+/*based on: http://www.gameplaypassion.com/blog/explosion-effect-html5-canvas/*/
+
 (function () {
     "use strict";
 	/*********************************
@@ -72,12 +74,8 @@
 	    __context2D,
 	    __particles = [],
 	    __frameRate = 60.0,
-	    __frameDelay = 1000.0 / __frameRate,
-		__canvasWidth = window.innerWidth,
-		__canvasHeight = window.innerHeight,
-		__canvasWidthHalf = __canvasWidth / 2,
-		__canvasHeightHalf = __canvasHeight / 2; 
-	   
+	    __frameDelay = 1000.0 / __frameRate;
+		
     var JsExplosion = function () {
 		__initializeCanvas.call(this);
 		__registerEvents.call(this);
@@ -87,8 +85,8 @@
 	var __initializeCanvas = function () {
 		__canvas = document.createElement("canvas");
 		__canvas.id = "canvas";
-		__canvas.setAttribute('width',__canvasWidth);
-		__canvas.setAttribute('height',__canvasHeight);
+		__canvas.setAttribute('width', window.innerWidth);
+		__canvas.setAttribute('height', window.innerHeight);
 		__canvas.setAttribute('style', 'pointer-events:none;position: absolute; z-index: 1000000; left:0; top:0;');
 		__context2D = __canvas.getContext("2d");
 		
