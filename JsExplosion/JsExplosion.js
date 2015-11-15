@@ -73,8 +73,8 @@
 	    __particles = [],
 	    __frameRate = 60.0,
 	    __frameDelay = 1000.0 / __frameRate,
-		__canvasWidth = 150,//;window.innerWidth,
-		__canvasHeight = 150,//window.innerHeight,
+		__canvasWidth = window.innerWidth,
+		__canvasHeight = window.innerHeight,
 		__canvasWidthHalf = __canvasWidth / 2,
 		__canvasHeightHalf = __canvasHeight / 2; 
 	   
@@ -89,11 +89,10 @@
 		__canvas.id = "canvas";
 		__canvas.setAttribute('width',__canvasWidth);
 		__canvas.setAttribute('height',__canvasHeight);
-		__canvas.setAttribute('style', 'pointer-events:none;position: absolute; z-index: 1000000; left: -' + __canvasWidth + 'px; top: -' + __canvasHeight + 'px;border: 5px solid blue;');
-		//__canvas.setAttribute('style', 'pointer-events:none;position: absolute; z-index: 1000000; left:0; top:0;border: 5px solid blue;');
-		document.body.insertBefore(__canvas, document.body.firstChild);
-		//document.body.appendChild(canvas);
+		__canvas.setAttribute('style', 'pointer-events:none;position: absolute; z-index: 1000000; left:0; top:0;border: 5px solid blue;');
 		__context2D = __canvas.getContext("2d");
+		
+		document.body.insertBefore(__canvas, document.body.firstChild);
 	};
 	
 	var __registerEvents = function () {
@@ -160,14 +159,12 @@
 			var minScaleSpeed = 1.0;
 			var maxScaleSpeed = 4.0;
 			
-			__canvas.setAttribute('style', 'pointer-events:none;position: absolute; z-index: 1000000; left: ' + (posX - __canvasWidthHalf) + 'px; top: ' + (posY - __canvasHeightHalf) + 'px;border: 5px solid blue;');
-			
 			for (var angle=0; angle<360; angle += Math.round(360/count))
 			{
 				var particle = new Particle();
 				
-				particle.x = __randomFloat(__canvasWidthHalf - 2, __canvasWidthHalf + 2);
-				particle.y = __randomFloat(__canvasHeightHalf - 2, __canvasHeightHalf + 2);
+				particle.x = posX;
+				particle.y = posY;
 				
 				particle.radius = __randomFloat(minSize, maxSize);
 				
