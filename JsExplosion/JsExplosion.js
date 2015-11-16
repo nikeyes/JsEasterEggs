@@ -86,7 +86,7 @@
 		__canvas = document.createElement("canvas");
 		__canvas.id = "canvas";
 		__canvas.width = window.innerWidth;
-		__canvas.height =  window.innerHeight;
+		__canvas.height = window.innerHeight;
 		__canvas.setAttribute('style', 'pointer-events:none;position: absolute; z-index: 1000000; left:0; top:0;');
 		__context2D = __canvas.getContext("2d");
 		
@@ -95,6 +95,11 @@
 	
 	var __registerEvents = function () {
 		var self = this;
+		
+		__addEventHandler(window, "resize", function(e) {
+			__canvas.width = window.innerWidth;
+			__canvas.height = window.innerHeight;
+		});	
 		
 		__addEventHandler(window, "click", function(e) {
 			var target,
