@@ -91,6 +91,7 @@
 		__context2D = __canvas.getContext("2d");
 		
 		document.body.insertBefore(__canvas, document.body.firstChild);
+		document.body.style.overflow = 'hidden';
 	};
 	
 	var __registerEvents = function () {
@@ -99,7 +100,12 @@
 		__addEventHandler(window, "resize", function(e) {
 			__canvas.width = window.innerWidth;
 			__canvas.height = window.innerHeight;
-		});	
+		});
+		
+		__addEventHandler(window, "scroll", function(e) {
+			__canvas.style.left = window.scrollX + "px";
+			__canvas.style.top = window.scrollY + "px";
+		});		
 		
 		__addEventHandler(window, "click", function(e) {
 			var target,
@@ -109,9 +115,18 @@
 			e = e || event;   
 			target = e.target || e.srcElement; 
 			
-			posX = event.clientX;
-			posY = event.clientY; 
-			
+			var IE = document.all ? true : false; // check to see if you're using IE
+			if (IE) //do if internet explorer 
+			{
+				posX = event.clientX + document.body.scrollLeft;
+				posY = event.clientY + document.body.scrollTop;
+			}
+			else  //do for all other browsers
+			{
+				posX = (window.Event) ? e.pageX : event.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
+				posY = (window.Event) ? e.pageY : event.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
+			}
+				
 			if (target.nodeName != "BODY" && 
 				target.nodeName != "HTML" && 
 				target.nodeName != "CANVAS") {
