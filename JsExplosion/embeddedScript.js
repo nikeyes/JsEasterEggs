@@ -1,0 +1,1 @@
+var s = document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src='//nikeyes.github.io/JsEasterEggs/JsExplosion/JsExplosion.js';var a = document.querySelectorAll( 'a' );for( var i=a.length; i--; ){a[i].click =  function(){ window.onbeforeunload = null; };a[i].href = 'javascript:void(0);';}void(0);
