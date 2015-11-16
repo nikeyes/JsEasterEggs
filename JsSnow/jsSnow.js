@@ -2,6 +2,13 @@
 (function () {
     "use strict";
 	
+	var __addEventHandler = function (elem,eventType,handler) {
+		if (elem.addEventListener)
+			elem.addEventListener (eventType,handler,false);
+		else if (elem.attachEvent)
+			elem.attachEvent ('on'+eventType,handler); 
+	};
+	
 	//canvas init
 	var maxWidth = window.innerWidth;
 	var maxHeight = window.innerHeight;
@@ -14,6 +21,14 @@
 	var ctx = canvas.getContext("2d");
 		
 	document.body.insertBefore(canvas, document.body.firstChild);
+	
+	__addEventHandler(window, "resize", function(e) {
+		maxWidth = window.innerWidth;
+		maxHeight = window.innerHeight;
+		canvas.width = maxWidth;
+		canvas.height = maxHeight;
+	});
+	
 	
 	//snowflake particles
 	var maxSnowflakes = 1000; //max particles
