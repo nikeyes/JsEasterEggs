@@ -168,7 +168,7 @@
         constructor : JsExplosion,
 				
 		createExplosion : function (posX, posY, color) {
-			var minSize = 10;
+			var minSize = 7;
 			var maxSize = 30;
 			var count = 10;
 			var minSpeed = 60.0;
@@ -180,8 +180,8 @@
 			{
 				var particle = new Particle();
 				
-				particle.x = __randomFloat(posX - 5, posX + 5);
-				particle.y = __randomFloat(posY - 5, posY + 5);
+				particle.x = __randomFloat(posX - 10, posX + 10);
+				particle.y = __randomFloat(posY - 10, posY + 10);
 				
 				particle.radius = __randomFloat(minSize, maxSize);
 				
