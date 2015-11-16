@@ -1,6 +1,7 @@
 /*Based on: http://thecodeplayer.com/walkthrough/html5-canvas-snow-effect*/
-
-window.onload = function(){
+(function () {
+    "use strict";
+	
 	//canvas init
 	var maxWidth = window.innerWidth;
 	var maxHeight = window.innerHeight;
@@ -88,4 +89,4 @@ window.onload = function(){
 	
 	//animation loop
 	setInterval(draw, 33);
-}
+}());
