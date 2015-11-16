@@ -85,8 +85,8 @@
 	var __initializeCanvas = function () {
 		__canvas = document.createElement("canvas");
 		__canvas.id = "canvas";
-		__canvas.setAttribute('width', window.innerWidth);
-		__canvas.setAttribute('height', window.innerHeight);
+		__canvas.width = window.innerWidth;
+		__canvas.height =  window.innerHeight;
 		__canvas.setAttribute('style', 'pointer-events:none;position: absolute; z-index: 1000000; left:0; top:0;');
 		__context2D = __canvas.getContext("2d");
 		
