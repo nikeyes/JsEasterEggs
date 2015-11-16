@@ -9,66 +9,82 @@
 			elem.attachEvent ('on'+eventType,handler); 
 	};
 	
-	//canvas init
-	var maxWidth = window.innerWidth;
-	var maxHeight = window.innerHeight;
+	var __maxWidth,
+		__maxHeight,
+		__canvas,
+		__ctx,
+		__maxSnowflakes,
+	    __snowflakes = [];
 	
-	var canvas = document.createElement("canvas");
-	canvas.id = "canvas";
-	canvas.setAttribute('width', maxWidth);
-	canvas.setAttribute('height', maxHeight);
-	canvas.setAttribute('style', 'pointer-events:none;position: absolute; z-index: 1000000; left:0; top:0;');
-	var ctx = canvas.getContext("2d");
+
+	var JsSnow = function () {
+		__maxWidth = window.innerWidth;
+	 	__maxHeight = window.innerHeight;
+		__maxSnowflakes = 1000;
 		
-	document.body.insertBefore(canvas, document.body.firstChild);
+		__createCanvas.call(this);
+		__initializeEvents.call(this);
+		__createInitialSnowflakes.call(this);
+		setInterval(__draw, 33);
 	
-	__addEventHandler(window, "resize", function(e) {
-		maxWidth = window.innerWidth;
-		maxHeight = window.innerHeight;
-		canvas.width = maxWidth;
-		canvas.height = maxHeight;
-	});
+	};
 	
+	var __initializeEvents = function () {
+		__addEventHandler(window, "resize", function(e) {
+			__maxWidth = window.innerWidth;
+			__maxHeight = window.innerHeight;
+			__canvas.width = __maxWidth;
+			__canvas.height = __maxHeight;
+		});	
+	};
 	
-	//snowflake particles
-	var maxSnowflakes = 1000; //max particles
-	var snowflakes = [];
-	for(var i = 0; i < maxSnowflakes; i++)
-	{
-		snowflakes.push({
-			x: Math.random() * maxWidth,
-			y: Math.random() * maxHeight, 
-			radius: Math.random() * 5,
-			density: Math.random() * maxSnowflakes
-		})
-	}
+	var __createCanvas = function () {
+		__canvas = document.createElement("canvas");
+		__canvas.id = "canvas";
+		__canvas.width = __maxWidth;
+		__canvas.height = __maxHeight;
+		__canvas.setAttribute('style', 'pointer-events:none;position: absolute; z-index: 1000000; left:0; top:0;');
+		__ctx = __canvas.getContext("2d");
+			
+		document.body.insertBefore(__canvas, document.body.firstChild);		
+	};
 	
-	//Lets draw the flakes
-	function draw()
-	{
-		ctx.clearRect(0, 0, maxWidth, maxHeight);
-		
-		ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
-		ctx.beginPath();
-		for(var i = 0; i < maxSnowflakes; i++)
+	var __createInitialSnowflakes = function () {
+		for(var i = 0; i < __maxSnowflakes; i++)
 		{
-			var snowflake = snowflakes[i];
-			ctx.moveTo(snowflake.x, snowflake.y);
-			ctx.arc(snowflake.x, snowflake.y, snowflake.radius, 0, Math.PI * 2, true);
+			__snowflakes.push({
+				x: Math.random() * __maxWidth,
+				y: Math.random() * __maxHeight, 
+				radius: Math.random() * 5,
+				density: Math.random() * __maxSnowflakes
+			})
 		}
-		ctx.fill();
-		update();
-	}
+	};
 	
-	//Function to move the snowflakes
-	//angle will be an ongoing incremental flag. Sin and Cos functions will be applied to it to create vertical and horizontal movements of the flakes
-	var angle = 0;
-	function update()
-	{
-		angle += 0.01;
-		for(var i = 0; i < maxSnowflakes; i++)
+	var __draw = function () {
+		__ctx.clearRect(0, 0, __maxWidth, __maxHeight);
+		
+		__ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+		__ctx.beginPath();
+		for(var i = 0; i < __maxSnowflakes; i++)
 		{
-			var p = snowflakes[i];
+			var snowflake = __snowflakes[i];
+			__ctx.moveTo(snowflake.x, snowflake.y);
+			__ctx.arc(snowflake.x, snowflake.y, snowflake.radius, 0, Math.PI * 2, true);
+		}
+		
+		__ctx.fill();
+		__update.call(this);
+	};
+	
+	var angle = 0;
+	var __update = function () {
+		angle += 0.01;
+		for(var i = 0; i < __maxSnowflakes; i++)
+		{
+			var p = __snowflakes[i];
+			
+			//angle will be an ongoing incremental flag. Sin and Cos functions will be applied to it to create vertical and horizontal movements of the flakes
 			//Updating X and Y coordinates
 			//We will add 1 to the cos function to prevent negative values which will lead flakes to move upwards
 			//Every particle has its own density which can be used to make the downward movement different for each flake
@@ -78,11 +94,11 @@
 			
 			//Sending flakes back from the top when it exits
 			//Lets make it a bit more organic and let flakes enter from the left and right also.
-			if(p.x > maxWidth + 5 || p.x < -5 || p.y > maxWidth)
+			if(p.x > __maxWidth + 5 || p.x < -5 || p.y > __maxWidth)
 			{
 				if(i%3 > 0) //66.67% of the flakes
 				{
-					snowflakes[i] = {x: Math.random() * maxWidth, y: -10, radius: p.radius, density: p.density};
+					__snowflakes[i] = {x: Math.random() * __maxWidth, y: -10, radius: p.radius, density: p.density};
 				}
 				else
 				{
@@ -90,18 +106,21 @@
 					if(Math.sin(angle) > 0)
 					{
 						//Enter from the left
-						snowflakes[i] = {x: -5, y: Math.random() * maxHeight, radius: p.radius, density: p.density};
+						__snowflakes[i] = {x: -5, y: Math.random() * __maxHeight, radius: p.radius, density: p.density};
 					}
 					else
 					{
 						//Enter from the right
-						snowflakes[i] = {x: maxWidth + 5, y: Math.random() * maxHeight, radius: p.radius, density: p.density};
+						__snowflakes[i] = {x: __maxWidth + 5, y: Math.random() * __maxHeight, radius: p.radius, density: p.density};
 					}
 				}
 			}
 		}
-	}
+	};
 	
-	//animation loop
-	setInterval(draw, 33);
+	JsSnow.prototype = {
+		constructor : JsSnow,
+	};
+	
+	new JsSnow();
 }());
