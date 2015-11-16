@@ -66,24 +66,24 @@ window.onload = function(){
 			//Lets make it a bit more organic and let flakes enter from the left and right also.
 			if(p.x > maxWidth + 5 || p.x < -5 || p.y > maxWidth)
 			{
-				//if(i%3 > 0) //66.67% of the flakes
-				//{
+				if(i%3 > 0) //66.67% of the flakes
+				{
 					snowflakes[i] = {x: Math.random() * maxWidth, y: -10, r: p.r, d: p.d};
-				//}
-				//else
-				//{
+				}
+				else
+				{
 					//If the flake is exitting from the right
-				//	if(Math.sin(angle) > 0)
-				//	{
+					if(Math.sin(angle) > 0)
+					{
 						//Enter from the left
-				//		snowflakes[i] = {x: -5, y: Math.random() * maxHeight, r: p.r, d: p.d};
-				//	}
-				//	else
-				//	{
+						snowflakes[i] = {x: -5, y: Math.random() * maxHeight, r: p.r, d: p.d};
+					}
+					else
+					{
 						//Enter from the right
-				//		snowflakes[i] = {x: maxWidth + 5, y: Math.random() * maxHeight, r: p.r, d: p.d};
-				//	}
-				//}
+						snowflakes[i] = {x: maxWidth + 5, y: Math.random() * maxHeight, r: p.r, d: p.d};
+					}
+				}
 			}
 		}
 	}
