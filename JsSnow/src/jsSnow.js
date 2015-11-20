@@ -14,7 +14,8 @@
 		__canvas,
 		__ctx,
 		__maxSnowflakes,
-	    __snowflakes = [];
+	    __snowflakes = [],
+		__fps = 30;
 
 	var JsSnow = function () {
 		/*if (options && options.maxWidth) {
@@ -40,12 +41,12 @@
 		
 		__maxWidth = window.innerWidth;	
 		__maxHeight = window.innerHeight;	
-		__maxSnowflakes = 1000;
+		__maxSnowflakes = 500;
 		
 		__createCanvas.call(this);
 		__initializeEvents.call(this);
 		__createInitialSnowflakes.call(this);
-		setInterval(__draw, 33);
+		setInterval(__draw, 1000/__fps);
 	};
 	
 	var __initializeEvents = function () {
