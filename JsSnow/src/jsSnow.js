@@ -46,9 +46,6 @@
 		__initializeEvents.call(this);
 		__createInitialSnowflakes.call(this);
 		setInterval(__draw, 33);
-		//window.requestAnimationFrame(__draw);
-		//__draw();
-	
 	};
 	
 	var __initializeEvents = function () {
@@ -84,24 +81,19 @@
 	};
 	
 	var __draw = function () {
+		__ctx.clearRect(0, 0, __maxWidth, __maxHeight);
+	
+		__ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+		__ctx.beginPath();
+		for(var i = 0; i < __maxSnowflakes; i++)
+		{
+			var snowflake = __snowflakes[i];
+			__ctx.moveTo(snowflake.x, snowflake.y);
+			__ctx.arc(snowflake.x, snowflake.y, snowflake.radius, 0, Math.PI * 2, true);
+		}
 		
-		//requestAnimationFrame(__draw);
-     
-			
-			__ctx.clearRect(0, 0, __maxWidth, __maxHeight);
-		
-			__ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
-			__ctx.beginPath();
-			for(var i = 0; i < __maxSnowflakes; i++)
-			{
-				var snowflake = __snowflakes[i];
-				__ctx.moveTo(snowflake.x, snowflake.y);
-				__ctx.arc(snowflake.x, snowflake.y, snowflake.radius, 0, Math.PI * 2, true);
-			}
-			
-			__ctx.fill();
-			__update.call(this);
-			
+		__ctx.fill();
+		__update.call(this);		
 	};
 	
 	var angle = 0;
@@ -151,37 +143,3 @@
 	
 	new JsSnow();
 }());
-
-/*jshint ignore:start*/
-// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-// http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
-
-// requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
-
-// MIT license
-
-(function() {
-    var lastTime = 0;
-    var vendors = ['ms', 'moz', 'webkit', 'o'];
-    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
-                                   || window[vendors[x]+'CancelRequestAnimationFrame'];
-    }
- 
-    if (!window.requestAnimationFrame)
-        window.requestAnimationFrame = function(callback, element) {
-            var currTime = new Date().getTime();
-            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
-              timeToCall);
-            lastTime = currTime + timeToCall;
-            return id;
-        };
- 
-    if (!window.cancelAnimationFrame)
-        window.cancelAnimationFrame = function(id) {
-            clearTimeout(id);
-        };
-}());
-/*jshint ignore:end*/
