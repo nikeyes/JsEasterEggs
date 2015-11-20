@@ -18,8 +18,29 @@
 	
 
 	var JsSnow = function () {
-		__maxWidth = window.innerWidth;
-	 	__maxHeight = window.innerHeight;
+		/*if (options && options.maxWidth) {
+			__maxWidth = options.maxWidth;
+		}
+		else if (window.JsSnowOptions && window.JsSnowOptions.maxWidth) {
+			__maxWidth = window.JsSnowOptions.maxWidth;
+		} 
+		else {
+			__maxWidth = window.innerWidth;	
+		} 
+		
+		if (options && options.maxHeight) {
+			__maxHeight = options.maxHeight;
+		}
+		else if (window.JsSnowOptions && window.JsSnowOptions.maxHeight) {
+			__maxHeight = window.JsSnowOptions.maxHeight;
+		} 
+		else {
+			__maxHeight = window.innerHeight;	
+		}*/
+		
+		
+		__maxWidth = window.innerWidth;	
+		__maxHeight = window.innerHeight;	
 		__maxSnowflakes = 1000;
 		
 		__createCanvas.call(this);
@@ -30,7 +51,7 @@
 	};
 	
 	var __initializeEvents = function () {
-		__addEventHandler(window, "resize", function(e) {
+		__addEventHandler(window, "resize", function() {
 			__maxWidth = window.innerWidth;
 			__maxHeight = window.innerHeight;
 			__canvas.width = __maxWidth;
@@ -57,7 +78,7 @@
 				y: Math.random() * __maxHeight, 
 				radius: Math.random() * 5,
 				density: Math.random() * __maxSnowflakes
-			})
+			});
 		}
 	};
 	
