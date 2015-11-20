@@ -47,12 +47,12 @@ gulp.task('lint', function () {
 gulp.task('minify-js', function () {
     return gulp.src([paths.sourcesFolder + '**/*.js'])
 		.pipe(buffer())
-		.pipe(sourcemaps.init({ loadMaps: true }))
+		//.pipe(sourcemaps.init({ loadMaps: true }))
 		.pipe(filesize())
 		.pipe(uglify())
         .pipe(rename({ suffix: '.min' }))
 		.pipe(filesize())
-		.pipe(sourcemaps.write('./maps'))
+		//.pipe(sourcemaps.write('./maps'))
 		.pipe(gulp.dest(paths.distributionFolder))
 		.on("error", notify.onError(function (error) {
 		  return {
