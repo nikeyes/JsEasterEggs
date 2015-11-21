@@ -16,20 +16,12 @@
 		__canvas,
 		__ctx,
 		__maxSnowflakes,
-	    __snowflakes = [];
-		//__fps = 30;
+	    __snowflakes = [],
+		__fps = 30;
 		
-		var fps;
-		var now;
-		var then;
-		var interval;
-		var delta;
-
 	var JsSnow = function (options) {
 		//DefaultOptions
-		fps = 30;
-		interval = 1000/fps;
-		then = Date.now();
+		
 		__maxHeight = window.innerHeight;
 		__maxWidth = window.innerWidth;
 		__resizeWidth = true;
@@ -68,7 +60,7 @@
 		__createCanvas.call(this);
 		__initializeEvents.call(this);
 		__createInitialSnowflakes.call(this,__maxSnowflakes);
-		__draw.call(this);
+		setInterval(__draw, 1000/__fps);
 	};
 	
 	var __initializeEvents = function () {
@@ -110,30 +102,6 @@
 	};
 	
 	var __draw = function () {
-		
-		requestAnimationFrame(__draw);
-     
-		now = Date.now();
-		delta = now - then;
-		
-		if (delta > interval) {
-			// update time stuffs
-			
-			// Just `then = now` is not enough.
-			// Lets say we set fps at 10 which means
-			// each frame must take 100ms
-			// Now frame executes in 16ms (60fps) so
-			// the loop iterates 7 times (16*7 = 112ms) until
-			// delta > interval === true
-			// Eventually this lowers down the FPS as
-			// 112*10 = 1120ms (NOT 1000ms).
-			// So we have to get rid of that extra 12ms
-			// by subtracting delta (112) % interval (100).
-			// Hope that makes sense.
-			
-			then = now - (delta % interval);
-			
-		
 			__ctx.clearRect(0, 0, __maxWidth, __maxHeight);
 		
 			__ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
@@ -147,7 +115,7 @@
 			
 			__ctx.fill();
 			__update.call(this);	
-		}	
+			
 	};
 	
 	var angle = 0;
@@ -198,36 +166,3 @@
 	new JsSnow({});
 }());
 
-/*jshint ignore:start*/
-// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-// http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
-
-// requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
-
-// MIT license
-
-(function() {
-    var lastTime = 0;
-    var vendors = ['ms', 'moz', 'webkit', 'o'];
-    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
-                                   || window[vendors[x]+'CancelRequestAnimationFrame'];
-    }
- 
-    if (!window.requestAnimationFrame)
-        window.requestAnimationFrame = function(callback, element) {
-            var currTime = new Date().getTime();
-            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
-              timeToCall);
-            lastTime = currTime + timeToCall;
-            return id;
-        };
- 
-    if (!window.cancelAnimationFrame)
-        window.cancelAnimationFrame = function(id) {
-            clearTimeout(id);
-        };
-}());
-/*jshint ignore:end*/ 
