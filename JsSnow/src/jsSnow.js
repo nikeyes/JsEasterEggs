@@ -14,11 +14,12 @@
 		__canvas,
 		__ctx,
 		__maxSnowflakes,
-	    __snowflakes = [];
-	
+	    __snowflakes = [],
+		__fps = 30;
 
-	var JsSnow = function () {
-		/*if (options && options.maxWidth) {
+	var JsSnow = function (options) {
+		//Configure Canvas Witdh
+		if (options && options.maxWidth) {
 			__maxWidth = options.maxWidth;
 		}
 		else if (window.JsSnowOptions && window.JsSnowOptions.maxWidth) {
@@ -28,6 +29,7 @@
 			__maxWidth = window.innerWidth;	
 		} 
 		
+		//Configure Canvas Height
 		if (options && options.maxHeight) {
 			__maxHeight = options.maxHeight;
 		}
@@ -36,18 +38,24 @@
 		} 
 		else {
 			__maxHeight = window.innerHeight;	
-		}*/
+		}
 		
+		//Configure Number of Snowflakes
+		if (options && options.snowflakesNumber) {
+			__maxSnowflakes = options.snowflakesNumber;
+		}
+		else if (window.JsSnowOptions && window.JsSnowOptions.snowflakesNumber) {
+			__maxSnowflakes = window.JsSnowOptions.snowflakesNumber;
+		} 
+		else {
+			__maxSnowflakes = 500;	
+		}
 		
-		__maxWidth = window.innerWidth;	
-		__maxHeight = window.innerHeight;	
-		__maxSnowflakes = 1000;
 		
 		__createCanvas.call(this);
 		__initializeEvents.call(this);
-		__createInitialSnowflakes.call(this);
-		setInterval(__draw, 33);
-	
+		__createInitialSnowflakes.call(this,__maxSnowflakes);
+		setInterval(__draw, 1000/__fps);
 	};
 	
 	var __initializeEvents = function () {
@@ -56,6 +64,8 @@
 			__maxHeight = window.innerHeight;
 			__canvas.width = __maxWidth;
 			__canvas.height = __maxHeight;
+			//__maxSnowflakes -=10;
+			//__createInitialSnowflakes.call(this,__maxSnowflakes);
 		});	
 	};
 	
@@ -70,8 +80,8 @@
 		document.body.insertBefore(__canvas, document.body.firstChild);		
 	};
 	
-	var __createInitialSnowflakes = function () {
-		for(var i = 0; i < __maxSnowflakes; i++)
+	var __createInitialSnowflakes = function (snowflakesNumber) {
+		for(var i = 0; i < snowflakesNumber; i++)
 		{
 			__snowflakes.push({
 				x: Math.random() * __maxWidth,
@@ -84,7 +94,7 @@
 	
 	var __draw = function () {
 		__ctx.clearRect(0, 0, __maxWidth, __maxHeight);
-		
+	
 		__ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
 		__ctx.beginPath();
 		for(var i = 0; i < __maxSnowflakes; i++)
@@ -95,7 +105,7 @@
 		}
 		
 		__ctx.fill();
-		__update.call(this);
+		__update.call(this);		
 	};
 	
 	var angle = 0;
@@ -115,7 +125,7 @@
 			
 			//Sending flakes back from the top when it exits
 			//Lets make it a bit more organic and let flakes enter from the left and right also.
-			if(p.x > __maxWidth + 5 || p.x < -5 || p.y > __maxWidth)
+			if(p.x > __maxWidth + 5 || p.x < -5 || p.y > __maxHeight)
 			{
 				if(i%3 > 0) //66.67% of the flakes
 				{
@@ -143,5 +153,5 @@
 		constructor : JsSnow,
 	};
 	
-	new JsSnow();
+	new JsSnow({});
 }());
