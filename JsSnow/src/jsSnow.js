@@ -21,7 +21,7 @@
 		__interval;
 		
 	var JsSnow = function (options) {
-		//DefaultOptions
+		//Default Options
 		__fps = 30;
 		__interval = 1000/__fps;
 		__maxHeight = window.innerHeight;
@@ -29,6 +29,28 @@
 		__resizeWidth = true;
 		__resizeHeight = true;
 		__maxSnowflakes = 500;
+		
+		__configureOptions.call(this, options);
+		__createCanvas.call(this);
+		__initializeEvents.call(this);
+		__createInitialSnowflakes.call(this,__maxSnowflakes);
+		
+		/*To simplify the code I use setInterval instead of requestAnimationFrame
+		You can view the changes in this commit: 
+		"replace setInterval with requestAnimationFrame(__draw);"*/
+		setInterval(__draw, __interval);
+	};
+
+	var __configureOptions = function (options) {
+		//Configure FPS
+		if (options && options.fps) {
+			__fps = options.fps;
+			__interval = 1000/__fps;
+		}
+		else if (window.JsSnowOptions && window.JsSnowOptions.fps) {
+			__fps = window.JsSnowOptions.fps;
+			__interval = 1000/__fps;
+		}
 		
 		//Configure Canvas Witdh
 		if (options && options.maxWidth) {
@@ -58,15 +80,17 @@
 			__maxSnowflakes = window.JsSnowOptions.snowflakesNumber;
 		} 
 		
-		
-		__createCanvas.call(this);
-		__initializeEvents.call(this);
-		__createInitialSnowflakes.call(this,__maxSnowflakes);
-		
-		/*To simplify the code I use setInterval instead of requestAnimationFrame
-		You can view the changes in this commit: 
-		"replace setInterval with requestAnimationFrame(__draw);"*/
-		setInterval(__draw, __interval);
+	};
+	
+	var __createCanvas = function () {
+		__canvas = document.createElement("canvas");
+		__canvas.id = "canvas";
+		__canvas.width = __maxWidth;
+		__canvas.height = __maxHeight;
+		__canvas.setAttribute('style', 'pointer-events:none;position: absolute; z-index: 1000000; left:0; top:0;');
+		__ctx = __canvas.getContext("2d");
+			
+		document.body.insertBefore(__canvas, document.body.firstChild);		
 	};
 	
 	var __initializeEvents = function () {
@@ -82,17 +106,6 @@
 				__canvas.height = __maxHeight;	
 			}
 		});	
-	};
-	
-	var __createCanvas = function () {
-		__canvas = document.createElement("canvas");
-		__canvas.id = "canvas";
-		__canvas.width = __maxWidth;
-		__canvas.height = __maxHeight;
-		__canvas.setAttribute('style', 'pointer-events:none;position: absolute; z-index: 1000000; left:0; top:0;');
-		__ctx = __canvas.getContext("2d");
-			
-		document.body.insertBefore(__canvas, document.body.firstChild);		
 	};
 	
 	var __createInitialSnowflakes = function (snowflakesNumber) {
