@@ -17,11 +17,13 @@
 		__ctx,
 		__maxSnowflakes,
 	    __snowflakes = [],
-		__fps = 30;
+		__fps,
+		__interval;
 		
 	var JsSnow = function (options) {
 		//DefaultOptions
-		
+		__fps = 30;
+		__interval = 1000/__fps;
 		__maxHeight = window.innerHeight;
 		__maxWidth = window.innerWidth;
 		__resizeWidth = true;
@@ -60,7 +62,11 @@
 		__createCanvas.call(this);
 		__initializeEvents.call(this);
 		__createInitialSnowflakes.call(this,__maxSnowflakes);
-		setInterval(__draw, 1000/__fps);
+		
+		/*To simplify the code I use setInterval instead of requestAnimationFrame
+		You can view the changes in this commit: 
+		"replace setInterval with requestAnimationFrame(__draw);"*/
+		setInterval(__draw, __interval);
 	};
 	
 	var __initializeEvents = function () {
