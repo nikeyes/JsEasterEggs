@@ -114,7 +114,7 @@
 			
 			//Sending flakes back from the top when it exits
 			//Lets make it a bit more organic and let flakes enter from the left and right also.
-			if(p.x > __maxWidth + 5 || p.x < -5 || p.y > __maxWidth)
+			if(p.x > __maxWidth + 5 || p.x < -5 || p.y > __maxHeight)
 			{
 				if(i%3 > 0) //66.67% of the flakes
 				{
