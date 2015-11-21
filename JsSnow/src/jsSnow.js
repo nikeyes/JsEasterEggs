@@ -11,6 +11,8 @@
 	
 	var __maxWidth,
 		__maxHeight,
+		__resizeWidth,
+		__resizeHeight,
 		__canvas,
 		__ctx,
 		__maxSnowflakes,
@@ -21,23 +23,29 @@
 		//Configure Canvas Witdh
 		if (options && options.maxWidth) {
 			__maxWidth = options.maxWidth;
+			__resizeWidth = false;
 		}
 		else if (window.JsSnowOptions && window.JsSnowOptions.maxWidth) {
 			__maxWidth = window.JsSnowOptions.maxWidth;
+			__resizeWidth = false;
 		} 
 		else {
-			__maxWidth = window.innerWidth;	
+			__maxWidth = window.innerWidth;
+			__resizeWidth = true;
 		} 
 		
 		//Configure Canvas Height
 		if (options && options.maxHeight) {
 			__maxHeight = options.maxHeight;
+			__resizeHeight = false;
 		}
 		else if (window.JsSnowOptions && window.JsSnowOptions.maxHeight) {
 			__maxHeight = window.JsSnowOptions.maxHeight;
+			__resizeHeight = false;
 		} 
 		else {
 			__maxHeight = window.innerHeight;	
+			__resizeHeight = true;
 		}
 		
 		//Configure Number of Snowflakes
@@ -48,7 +56,7 @@
 			__maxSnowflakes = window.JsSnowOptions.snowflakesNumber;
 		} 
 		else {
-			__maxSnowflakes = 500;	
+			__maxSnowflakes = 100;	
 		}
 		
 		
@@ -60,12 +68,16 @@
 	
 	var __initializeEvents = function () {
 		__addEventHandler(window, "resize", function() {
-			__maxWidth = window.innerWidth;
-			__maxHeight = window.innerHeight;
-			__canvas.width = __maxWidth;
-			__canvas.height = __maxHeight;
-			//__maxSnowflakes -=10;
-			//__createInitialSnowflakes.call(this,__maxSnowflakes);
+			if (__resizeWidth === true)
+			{
+				__maxWidth = window.innerWidth;
+				__canvas.width = __maxWidth;	
+			}
+			if (__resizeHeight === true)
+			{
+				__maxHeight = window.innerHeight;
+				__canvas.height = __maxHeight;	
+			}
 		});	
 	};
 	
