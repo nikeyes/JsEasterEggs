@@ -20,16 +20,22 @@ http://jumptofive.com/canvas-como-crear-efecto-de-nieve-cayendo/
 		__ctx,
 		__maxSnowflakes,
 		__maxSizeSnowflake,
-	    __snowflakes = [],
+	    __snowflakes,
 		__fps,
+		__intervalTime,
 		__interval,
 		__horizontalSwingFactor,
         __windFactor;
 		
+		
 	var JsSnow = function (options) {
+		__updateOptions.call(this, options);
+	};
+	
+	var __updateOptions = function (options) {
 		//Default Options
 		__fps = 30;
-		__interval = 1000/__fps;
+		__intervalTime = 1000/__fps;
 		__maxHeight = window.innerHeight;
 		__maxWidth = window.innerWidth;
 		__resizeWidth = true;
@@ -37,7 +43,8 @@ http://jumptofive.com/canvas-como-crear-efecto-de-nieve-cayendo/
 		__maxSnowflakes = 500;
 		__maxSizeSnowflake = 5;
 		__horizontalSwingFactor = 2;
-        __windFactor = 1;
+        __windFactor = 0.5;
+		__snowflakes = [];
 		
 		__configureOptions.call(this, options);
 		__createCanvas.call(this);
@@ -47,65 +54,74 @@ http://jumptofive.com/canvas-como-crear-efecto-de-nieve-cayendo/
 		/*To simplify the code I use setInterval instead of requestAnimationFrame
 		You can view the changes in this commit: 
 		"replace setInterval with requestAnimationFrame(__draw);"*/
-		setInterval(__drawSnowflakes, __interval);
+		clearInterval(__interval);
+		__interval = setInterval(__drawSnowflakes, __intervalTime);
 	};
-
+	
 	var __configureOptions = function (options) {
 		//Configure FPS
 		if (options && options.fps) {
-			__fps = options.fps;
-			__interval = 1000/__fps;
+			__fps = parseInt(options.fps);
+			__intervalTime = 1000/__fps;
 		}
 		else if (window.JsSnowOptions && window.JsSnowOptions.fps) {
-			__fps = window.JsSnowOptions.fps;
-			__interval = 1000/__fps;
+			__fps = parseInt(window.JsSnowOptions.fps);
+			__intervalTime = 1000/__fps;
 		}
 		
 		//Configure Canvas Witdh
-		if (options && options.maxWidth) {
-			__maxWidth = options.maxWidth;
+		if (options && 
+			options.maxWidth && 
+			options.maxWidth > 0) {
+			__maxWidth = parseInt(options.maxWidth);
 			__resizeWidth = false;
 		}
-		else if (window.JsSnowOptions && window.JsSnowOptions.maxWidth) {
-			__maxWidth = window.JsSnowOptions.maxWidth;
+		else if (window.JsSnowOptions && 
+				window.JsSnowOptions.maxWidth && 
+				window.JsSnowOptions.maxWidth > 0) {
+			__maxWidth = parseInt(window.JsSnowOptions.maxWidth);
 			__resizeWidth = false;
 		} 
 		
 		//Configure Canvas Height
-		if (options && options.maxHeight) {
-			__maxHeight = options.maxHeight;
+		if (options && 
+			options.maxHeight && 
+			options.maxHeight > 0) {
+			__maxHeight = parseInt(options.maxHeight);
 			__resizeHeight = false;
 		}
-		else if (window.JsSnowOptions && window.JsSnowOptions.maxHeight) {
-			__maxHeight = window.JsSnowOptions.maxHeight;
+		else if (window.JsSnowOptions && 
+				window.JsSnowOptions.maxHeight && 
+				window.JsSnowOptions.maxHeight > 0) {
+			__maxHeight = parseInt(window.JsSnowOptions.maxHeight);
 			__resizeHeight = false;
 		} 
 		
 		//Configure Number of Snowflakes
 		if (options && options.snowflakesNumber) {
-			__maxSnowflakes = options.snowflakesNumber;
+			__maxSnowflakes = parseInt(options.snowflakesNumber);
 		}
 		else if (window.JsSnowOptions && window.JsSnowOptions.snowflakesNumber) {
-			__maxSnowflakes = window.JsSnowOptions.snowflakesNumber;
+			__maxSnowflakes = parseInt(window.JsSnowOptions.snowflakesNumber);
 		} 
 		
-		//Configure Winf Factor
+		//Configure Wind Factor
 		if (options && options.windFactor) {
-			__windFactor = options.windFactor;
+			__windFactor = parseFloat(options.windFactor);
 		}
 		else if (window.JsSnowOptions && window.JsSnowOptions.windFactor) {
-			__windFactor = window.JsSnowOptions.windFactor;
+			__windFactor = parseFloat(window.JsSnowOptions.windFactor);
 		} 
 	};
 	
 	var __createCanvas = function () {
-		__canvas = document.createElement("canvas");
-		__canvas.id = "canvas";
+		__canvas = document.getElementById("JsSnowCanvas") || document.createElement("canvas");
+		__canvas.id = "JsSnowCanvas";
 		__canvas.width = __maxWidth;
 		__canvas.height = __maxHeight;
 		__canvas.setAttribute('style', 'pointer-events:none;position: absolute; z-index: 1000000; left:0; top:0;');
 		__ctx = __canvas.getContext("2d");
-			
+		
 		document.body.insertBefore(__canvas, document.body.firstChild);		
 	};
 	
@@ -153,9 +169,9 @@ http://jumptofive.com/canvas-como-crear-efecto-de-nieve-cayendo/
 			
 	};
 	
-	var angle = 0;
+	var __angle = 0;
 	var __updateSnowflakesPosition = function () {
-		angle += 0.01;
+		__angle += 0.01;
 		for(var i = 0; i < __maxSnowflakes; i++)
 		{
 			var p = __snowflakes[i];
@@ -163,9 +179,8 @@ http://jumptofive.com/canvas-como-crear-efecto-de-nieve-cayendo/
 			//We will add 1 to the cos function to prevent negative values which will lead flakes to move upwards
 			//Every particle has its own density which can be used to make the downward movement different for each flake
 			//Lets make it more random by adding in the radius
-		
-			p.x += Math.sin(angle) * __horizontalSwingFactor + __windFactor;
-			p.y += Math.cos(angle + p.density) + 1 + p.radius / 2;
+			p.x += ( Math.cos(__angle) + 1) * __horizontalSwingFactor + __windFactor;
+			p.y += Math.sin(__angle) + p.radius / 2;		
 			
 			//Sending flakes back from the top when it exits
 			//Lets make it a bit more organic and let flakes enter from the left and right also.
@@ -198,8 +213,17 @@ http://jumptofive.com/canvas-como-crear-efecto-de-nieve-cayendo/
 	
 	JsSnow.prototype = {
 		constructor : JsSnow,
+		updateOptions : function (options)
+		{
+			__updateOptions.call(this, options);
+		}
 	};
 	
-	new JsSnow({});
+	if (typeof module !== 'undefined' && module.exports) {
+        module.exports = new JsSnow({});
+    }
+    else {
+        window.JsSnow = new JsSnow({});
+    }
 }());
 
