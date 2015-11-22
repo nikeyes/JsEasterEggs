@@ -68,16 +68,16 @@
 </head>
 
 <body>
-	<div class="form">
+	<form class="form" id="form">
 		<div><label>FPS:</label><input type="text" value="30" placeholder="FPS" id="Fps"/></div>
 		<div><label>Width:</label><input type="text" value="" placeholder="Width" id="Width"/></div>
 		<div><label>Height:</label><input type="text" value="" placeholder="Height" id="Height"/></div>
 		<div><label>Snowflakes Number:</label><input type="text" value="50" placeholder="Snowflakes Number" id="SnowflakesNumber"/></div>
 		<div><label>Wind: </label><input type="text" value="1" placeholder="Wind" id="WindFactor"/></div>
-		<div><input type="button" value="Apply" id="Apply"/></div>
-	</div>
+		<div><input type="button" value="Apply" id="apply"/></div>
+	</form>
 	<script>
-		function applyClick() {
+		function jsSnowUpdate() {
 			var options = {
 				maxHeight: document.getElementById("Height").value || 0,
 				maxWidth: document.getElementById("Width").value || 0,
@@ -86,15 +86,40 @@
 				windFactor: document.getElementById("WindFactor").value || 1
 			};
 			
-			window.JsSnow.updateOptions(options)
+			window.JsSnow.updateOptions(options);
 		}
 		
-		var applyButton = document.getElementById("Apply");
+		var applyButton = document.getElementById("apply");
 		
 		if (applyButton.addEventListener)
-			applyButton.addEventListener ('click',applyClick,false);
+			applyButton.addEventListener ('click',jsSnowUpdate,false);
 		else if (applyButton.attachEvent)
-			applyButton.attachEvent ('onclick',applyClick);
+			applyButton.attachEvent ('onclick',jsSnowUpdate);
+
+		document.onkeydown = function(e) {
+			doClick('apply', e);
+		};
+		
+		function doClick(buttonName,e)
+		{
+			//the purpose of this function is to allow the enter key to 
+			//point to the correct button to click.
+			var ev = e || window.event;
+			var key = ev.keyCode;
+			
+			if (key == 13)
+			{
+				//Get the button the user wants to have clicked
+				var btn = document.getElementById(buttonName);
+				if (btn != null)
+				{ 
+					//If we find the button click it
+					btn.click();
+					ev.preventDefault(); 
+				}
+			}
+		}
+
 
 		/* Sample to apply options directly on script*/
 		/*
