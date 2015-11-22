@@ -163,8 +163,9 @@ http://jumptofive.com/canvas-como-crear-efecto-de-nieve-cayendo/
 			//We will add 1 to the cos function to prevent negative values which will lead flakes to move upwards
 			//Every particle has its own density which can be used to make the downward movement different for each flake
 			//Lets make it more random by adding in the radius
+		
 			p.x += Math.sin(angle) * __horizontalSwingFactor + __windFactor;
-			p.y += ((Math.cos(angle + p.density) + 1) + p.radius / 2);
+			p.y += Math.cos(angle + p.density) + 1 + p.radius / 2;
 			
 			//Sending flakes back from the top when it exits
 			//Lets make it a bit more organic and let flakes enter from the left and right also.
@@ -178,17 +179,18 @@ http://jumptofive.com/canvas-como-crear-efecto-de-nieve-cayendo/
 				else
 				{
 					//If the flake is exitting from the right
-					if(Math.sin(angle) > 0)
+					if(p.x > __maxWidth + 5)
 					{
 						//Enter from the left
 						__snowflakes[i].x = -5;
+						__snowflakes[i].y = Math.random() * __maxHeight;
 					}
 					else
 					{
 						//Enter from the right
 						__snowflakes[i].x = __maxWidth + 5;
+						__snowflakes[i].y = Math.random() * __maxHeight;
 					}
-					__snowflakes[i].y = Math.random() * __maxHeight;
 				}
 			}
 		}
