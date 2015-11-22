@@ -4,26 +4,109 @@
 <head>
 <title>Snow Effect</title>
 <style>
-	/*Simple reset*/
-	* {margin: 0; padding: 0;}
+	*{	margin: 0; 
+		padding: 0;
+	}
 	
 	body {
-		/*You can use any kind of background here.*/
+		font-family: sans-serif;
+ 	   	font-size: 12px;
 		background: #6b92b9;
+	}
+	
+	.form{
+		width: 310px;
+		color: #394447;
+		border: 1px solid #CED5D7;
+		border-radius: 6px;
+		padding: 45px 45px 20px;
+		background-color: #bbcddd;
+		box-shadow: 0px 5px 10px #B5C1C5, 0 0 0 10px #EEF5F7 inset;
+	}
+	.form label{
+		display: block;
+		font-weight: bold;
+	}
+	.form div{
+		margin-bottom: 15px;
+	}
+	.form input[type='text'], .form textarea{
+		padding: 7px 6px;
+		width: 294px;
+		border: 1px solid #CED5D7;
+		resize: none;
+		box-shadow:0 0 0 3px #EEF5F7;
+		margin: 5px 0;
+	}
+	.form input[type='text']:focus, .form textarea:focus{
+		outline: none;
+		box-shadow:0 0 0 3px #dde9ec;
+	}
+	.form input[type='button']{
+		border: 1px solid #CED5D7;
+		box-shadow:0 0 0 3px #EEF5F7;
+		padding: 8px 16px;
+		border-radius: 20px;
+		font-weight: bold;
+		text-shadow: 1px 1px 0px white;
+	
+		background: #e4f1f6;
+		background: -moz-linear-gradient(top, #e4f1f6 0%, #cfe6ef 100%);
+		background: -webkit-linear-gradient(top, #e4f1f6 0%,#cfe6ef 100%);
+	}
+	.form input[type='button']:hover{
+		background: #edfcff;
+		background: -moz-linear-gradient(top, #edfcff 0%, #cfe6ef 100%);
+		background: -webkit-linear-gradient(top, #edfcff 0%,#cfe6ef 100%);
+	}
+	.form input[type='button']:active{
+		background: #cfe6ef;
+		background: -moz-linear-gradient(top, #cfe6ef 0%, #edfcff 100%);
+		background: -webkit-linear-gradient(top, #cfe6ef 0%,#edfcff 100%);
 	}
 </style>
 </head>
 
 <body>
+	<div class="form">
+		<div><label>FPS:</label><input type="text" value="30" placeholder="FPS" id="Fps"/></div>
+		<div><label>Width:</label><input type="text" value="" placeholder="Width" id="Width"/></div>
+		<div><label>Height:</label><input type="text" value="" placeholder="Height" id="Height"/></div>
+		<div><label>Snowflakes Number:</label><input type="text" value="50" placeholder="Snowflakes Number" id="SnowflakesNumber"/></div>
+		<div><label>Wind: </label><input type="text" value="1" placeholder="Wind" id="WindFactor"/></div>
+		<div><input type="button" value="Apply" id="Apply"/></div>
+	</div>
 	<script>
-		/*window.JsSnowOptions = {
+		function applyClick() {
+			var options = {
+				maxHeight: document.getElementById("Height").value || 0,
+				maxWidth: document.getElementById("Width").value || 0,
+				snowflakesNumber: document.getElementById("SnowflakesNumber").value || 50,
+				fps: document.getElementById("Fps").value || 30,
+				windFactor: document.getElementById("WindFactor").value || 1
+			};
+			
+			window.JsSnow.updateOptions(options)
+		}
+		
+		var applyButton = document.getElementById("Apply");
+		
+		if (applyButton.addEventListener)
+			applyButton.addEventListener ('click',applyClick,false);
+		else if (applyButton.attachEvent)
+			applyButton.attachEvent ('onclick',applyClick);
+
+		/* Sample to apply options directly on script*/
+		/*
+		window.JsSnowOptions = {
 			maxHeight: 300,
 			maxWidth:500,
-			snowflakesNumber: 50,
+			snowflakesNumber: 100,
 			fps: 30,
-			windFactor: 1
+			windFactor: 0.5
 		};*/
 	</script>
+	
 	<script src="src/jsSnow.js"></script>
 </body>
 </html>
