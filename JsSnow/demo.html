@@ -72,7 +72,8 @@
 		<div><label>FPS:</label><input type="text" value="30" placeholder="FPS" id="Fps"/></div>
 		<div><label>Width:</label><input type="text" value="" placeholder="Width" id="Width"/></div>
 		<div><label>Height:</label><input type="text" value="" placeholder="Height" id="Height"/></div>
-		<div><label>Snowflakes Number:</label><input type="text" value="50" placeholder="Snowflakes Number" id="SnowflakesNumber"/></div>
+		<div><label>Snowflakes Number:</label><input type="text" value="500" placeholder="Snowflakes Number" id="SnowflakesNumber"/></div>
+		<div><label>Snowflakes MaxSize: </label><input type="text" value="5" placeholder="Snowflakes MaxSize" id="MaxSizeSnowflake"/></div>
 		<div><label>Wind: </label><input type="text" value="1" placeholder="Wind" id="WindFactor"/></div>
 		<div><input type="button" value="Apply" id="apply"/></div>
 	</form>
@@ -81,9 +82,10 @@
 			var options = {
 				maxHeight: document.getElementById("Height").value || 0,
 				maxWidth: document.getElementById("Width").value || 0,
-				snowflakesNumber: document.getElementById("SnowflakesNumber").value || 50,
+				snowflakesNumber: document.getElementById("SnowflakesNumber").value || 500,
 				fps: document.getElementById("Fps").value || 30,
-				windFactor: document.getElementById("WindFactor").value || 1
+				windFactor: document.getElementById("WindFactor").value || 1,
+				maxSizeSnowflake: document.getElementById("MaxSizeSnowflake").value || 5
 			};
 			
 			window.JsSnow.updateOptions(options);
