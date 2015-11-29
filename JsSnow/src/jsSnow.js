@@ -111,6 +111,14 @@ http://jumptofive.com/canvas-como-crear-efecto-de-nieve-cayendo/
 		}
 		else if (window.JsSnowOptions && window.JsSnowOptions.windFactor) {
 			__windFactor = parseFloat(window.JsSnowOptions.windFactor);
+		}
+		
+		//Configure Snowflake maxSize
+		if (options && options.maxSizeSnowflake) {
+			__maxSizeSnowflake = parseInt(options.maxSizeSnowflake);
+		}
+		else if (window.JsSnowOptions && window.JsSnowOptions.maxSizeSnowflake) {
+			__maxSizeSnowflake = parseInt(window.JsSnowOptions.maxSizeSnowflake);
 		} 
 	};
 	
