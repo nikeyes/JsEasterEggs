@@ -40,7 +40,7 @@ http://jumptofive.com/canvas-como-crear-efecto-de-nieve-cayendo/
 		__maxWidth = window.innerWidth;
 		__resizeWidth = true;
 		__resizeHeight = true;
-		__maxSnowflakes = 500;
+		__maxSnowflakes = 250;
 		__maxSizeSnowflake = 5;
 		__horizontalSwingFactor = 2;
         __windFactor = 0.5;
@@ -120,6 +120,14 @@ http://jumptofive.com/canvas-como-crear-efecto-de-nieve-cayendo/
 		else if (window.JsSnowOptions && window.JsSnowOptions.maxSizeSnowflake) {
 			__maxSizeSnowflake = parseInt(window.JsSnowOptions.maxSizeSnowflake);
 		} 
+		
+		//Configure horizontal Swing Factor
+		if (options && options.horizontalSwingFactor) {
+			__horizontalSwingFactor = options.horizontalSwingFactor > 0 ? parseInt(options.horizontalSwingFactor) : 1;
+		}
+		else if (window.JsSnowOptions && window.JsSnowOptions.horizontalSwingFactor) {
+			__horizontalSwingFactor = window.JsSnowOptions.horizontalSwingFactor > 0 ? parseInt(window.JsSnowOptions.horizontalSwingFactor): 1;
+		} 
 	};
 	
 	var __createCanvas = function () {
@@ -187,31 +195,31 @@ http://jumptofive.com/canvas-como-crear-efecto-de-nieve-cayendo/
 			//We will add 1 to the cos function to prevent negative values which will lead flakes to move upwards
 			//Every particle has its own density which can be used to make the downward movement different for each flake
 			//Lets make it more random by adding in the radius
-			p.x += ( Math.cos(__angle) + 1) * __horizontalSwingFactor + __windFactor;
-			p.y += Math.sin(__angle) + p.radius / 2;		
+			p.x += Math.cos(__angle) + 1 * __horizontalSwingFactor + __windFactor;
+			p.y += Math.sin(__angle + p.density) + 1 + p.radius / 2;	
 			
 			//Sending flakes back from the top when it exits
 			//Lets make it a bit more organic and let flakes enter from the left and right also.
-			if(p.x > __maxWidth + 5 || p.x < -5 || p.y > __maxHeight)
+			if(p.x > __maxWidth + __maxSizeSnowflake || p.x < -__maxSizeSnowflake || p.y > __maxHeight)
 			{
 				if(i%3 > 0) //66.67% of the flakes
 				{
 					__snowflakes[i].x = Math.random() * __maxWidth;
-					__snowflakes[i].y = -10;
+					__snowflakes[i].y = -__maxSizeSnowflake;
 				}
 				else
 				{
 					//If the flake is exitting from the right
-					if(p.x > __maxWidth + 5)
+					if(p.x > __maxWidth + __maxSizeSnowflake)
 					{
 						//Enter from the left
-						__snowflakes[i].x = -5;
+						__snowflakes[i].x = -__maxSizeSnowflake;
 						__snowflakes[i].y = Math.random() * __maxHeight;
 					}
 					else
 					{
 						//Enter from the right
-						__snowflakes[i].x = __maxWidth + 5;
+						__snowflakes[i].x = __maxWidth + __maxSizeSnowflake;
 						__snowflakes[i].y = Math.random() * __maxHeight;
 					}
 				}
