@@ -72,9 +72,10 @@
 		<div><label>FPS:</label><input type="text" value="30" placeholder="FPS" id="Fps"/></div>
 		<div><label>Width:</label><input type="text" value="" placeholder="Width" id="Width"/></div>
 		<div><label>Height:</label><input type="text" value="" placeholder="Height" id="Height"/></div>
-		<div><label>Snowflakes Number:</label><input type="text" value="500" placeholder="Snowflakes Number" id="SnowflakesNumber"/></div>
+		<div><label>Snowflakes Number:</label><input type="text" value="250" placeholder="Snowflakes Number" id="SnowflakesNumber"/></div>
 		<div><label>Snowflakes MaxSize: </label><input type="text" value="5" placeholder="Snowflakes MaxSize" id="MaxSizeSnowflake"/></div>
-		<div><label>Wind: </label><input type="text" value="1" placeholder="Wind" id="WindFactor"/></div>
+		<div><label>Horizonal Swing Factor: </label><input type="text" value="2" placeholder="Horizontal Swing Factor" id="HorizontalSwingFactor"/></div>
+		<div><label>Wind: </label><input type="text" value="0.5" placeholder="Wind" id="WindFactor"/></div>
 		<div><input type="button" value="Apply" id="apply"/></div>
 	</form>
 	<script>
@@ -82,10 +83,11 @@
 			var options = {
 				maxHeight: document.getElementById("Height").value || 0,
 				maxWidth: document.getElementById("Width").value || 0,
-				snowflakesNumber: document.getElementById("SnowflakesNumber").value || 500,
+				snowflakesNumber: document.getElementById("SnowflakesNumber").value || 250,
 				fps: document.getElementById("Fps").value || 30,
-				windFactor: document.getElementById("WindFactor").value || 1,
-				maxSizeSnowflake: document.getElementById("MaxSizeSnowflake").value || 5
+				windFactor: document.getElementById("WindFactor").value || 0.5,
+				maxSizeSnowflake: document.getElementById("MaxSizeSnowflake").value || 5,
+				horizontalSwingFactor: document.getElementById("HorizontalSwingFactor").value || 5
 			};
 			
 			window.JsSnow.updateOptions(options);
@@ -131,6 +133,7 @@
 			snowflakesNumber: 100,
 			fps: 30,
 			windFactor: 0.5
+			horizontalSwingFactor: 2
 		};*/
 	</script>
 	

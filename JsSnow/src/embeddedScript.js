@@ -5,6 +5,7 @@
 	fps: 30,
 	windFactor: 0.5,
 	maxSizeSnowflake: 5
+	horizontalSwingFactor: 2
 };*/ 
 var script = document.createElement('script');
 script.type='text/javascript';document.body.appendChild(script);
