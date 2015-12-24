@@ -23,6 +23,7 @@ http://jumptofive.com/canvas-como-crear-efecto-de-nieve-cayendo/
 	    __snowflakes,
 		__fps,
 		__intervalTime,
+		__angleHorizontalSwingFactor,
 		__horizontalSwingFactor,
         __windFactor,
 		__now,
@@ -45,6 +46,7 @@ http://jumptofive.com/canvas-como-crear-efecto-de-nieve-cayendo/
 		__resizeHeight = true;
 		__maxSnowflakes = 250;
 		__maxSizeSnowflake = 5;
+		__angleHorizontalSwingFactor = 0;
 		__horizontalSwingFactor = 2;
         __windFactor = 0.5;
 		__snowflakes = [];
@@ -210,40 +212,44 @@ http://jumptofive.com/canvas-como-crear-efecto-de-nieve-cayendo/
 		}
 	};
 	
-	var __angle = 0;
 	var __updateSnowflakesPosition = function () {
-		__angle += 0.01;
+		__angleHorizontalSwingFactor += 0.01;
 		for(var i = 0; i < __maxSnowflakes; i++)
 		{
 			var p = __snowflakes[i];
 			
-			//We will add 1 to the cos function to prevent negative values which will lead flakes to move upwards
+			//We will add 1 to the sin function to prevent negative values which will lead flakes to move upwards
 			//Every particle has its own density which can be used to make the downward movement different for each flake
 			//Lets make it more random by adding in the radius
-			p.x += Math.cos(__angle) + 1 * __horizontalSwingFactor + __windFactor;
-			p.y += Math.sin(__angle + p.density) + 1 + p.radius / 2;	
+			p.x += Math.cos(__angleHorizontalSwingFactor) * __horizontalSwingFactor + __windFactor;
+			p.y += Math.sin(__angleHorizontalSwingFactor + p.density) + 1 + p.radius / 2;	
 			
 			//Sending flakes back from the top when it exits
 			//Lets make it a bit more organic and let flakes enter from the left and right also.
-			if(p.x > __maxWidth + __maxSizeSnowflake || p.x < -__maxSizeSnowflake || p.y > __maxHeight)
+			if(p.x > __maxWidth + __maxSizeSnowflake || p.x < -__maxSizeSnowflake || p.y > __maxHeight + __maxSizeSnowflake)
 			{
-				if(i%3 > 0) //66.67% of the flakes
+				//If the snowflake exit from the bottom, it enter from the top
+				if(p.y > __maxHeight + __maxSizeSnowflake)
+				{
+					__snowflakes[i].x = Math.random() * __maxWidth;
+					__snowflakes[i].y = -__maxSizeSnowflake;
+				}
+				else if(i%3 > 0) //66.67% of the snowflake exit from the right or left, it enter from the top
 				{
 					__snowflakes[i].x = Math.random() * __maxWidth;
 					__snowflakes[i].y = -__maxSizeSnowflake;
 				}
 				else
 				{
-					//If the flake is exitting from the right
+					//If the flake exit from the right, enter from the left
 					if(p.x > __maxWidth + __maxSizeSnowflake)
 					{
-						//Enter from the left
 						__snowflakes[i].x = -__maxSizeSnowflake;
 						__snowflakes[i].y = Math.random() * __maxHeight;
 					}
 					else
 					{
-						//Enter from the right
+						//If the flake exit from the left, enter from the right
 						__snowflakes[i].x = __maxWidth + __maxSizeSnowflake;
 						__snowflakes[i].y = Math.random() * __maxHeight;
 					}
