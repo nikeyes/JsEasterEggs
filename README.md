@@ -2,6 +2,6 @@
 Javascripts Easter Eggs to include in your  Web page
 
 ## Samples
-jsSnow -> http://nikeyes.github.io/JsEasterEggs/JsSnow/demo.html
+jsSnow -> <a target="_blank" href="http://nikeyes.github.io/JsEasterEggs/JsSnow/demo.html">http://nikeyes.github.io/JsEasterEggs/JsSnow/demo.html</a>
 
-jsExplosion -> http://nikeyes.github.io/JsEasterEggs/JsExplosion/demo.html
+jsExplosion -> <a target="_blank" href="http://nikeyes.github.io/JsEasterEggs/JsExplosion/demo.html">http://nikeyes.github.io/JsEasterEggs/JsExplosion/demo.html</a>
